@@ -168,10 +168,10 @@ function draw(s)
 	 pixel = Color:new(0,0,0)
 	 for i = 0 , 499  do
 	     for k = 0, 499 do
-	     	 if(i^3 == l) then
-	     	 	pixel.red = i	
-		 	pixel.green = k
-		 	pixel.blue = i+k
+	     	 if(i^2 == k) then
+	     	 	pixel.red = i%256	
+		 	pixel.green = k%256
+		 	pixel.blue = 100
 		 	draw_line(250 , 250 , i , k , pixel , s)
 		 end
 	      end
@@ -183,6 +183,7 @@ function main()
 	 draw(board)
 	 save_ppm(board)
 end
+main()
 --[[
 pixel = Color:new(100,50,10)
 clear_screen(board)
