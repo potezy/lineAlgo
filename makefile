@@ -1,2 +1,2 @@
 run:
-	lua drwaLine.lua
+	lua drawLine.lua

@@ -51,7 +51,6 @@ function save_ppm(s)
 	 file:write("P3\n" , XRES , "\n" , YRES , "\n" , MAX_COLOR, "\n")
 	 for x = 0, XRES - 1 do
 	     for y = 0 , YRES - 1 do
-	  --   	 print(s[x][y].red , s[x][y].green , s[x][y].blue)
 	     	 file:write(s[x][y].red, " " , s[x][y].green, " " , s[x][y].blue, " ")
 	     end
 	     file:write("\n")
@@ -92,8 +91,8 @@ function oct_check(x0 , y0, x1 , y1)
 	       oct = 7
 	    end
 	 end
-	 if (B1 > 0) then oct = 9 end --other half of the octants
-	 if ( not A) then oct = 10 end --if its horizontal
+	 --octant 3
+	 
 	 return oct
 end	      
 
@@ -102,7 +101,7 @@ function draw_line(x0 , y0 , x1, y1 , c , s)
 	 x = x0
 	 y = y0
 	 oct = oct_check(x0, y0 , x1, y1)
-	 
+	 if (oct == 0) then draw_line(x1,y1,x0,y0,c,s) end
 	 if (oct == 1) then --line is in octant 1
 	    A = y1 - y
 	    B = -1 * (x1 - x)
@@ -160,119 +159,31 @@ function draw_line(x0 , y0 , x1, y1 , c , s)
 		   y = y -1
 		   D = D -2*B
 	    end
-	 end
-	 if (oct == 9) then --use reverse inputs
-	    draw_line2(x1 , y1 , x0 , y0 , s ,c)
-	 end
-	 if (oct == 0) then --vertical line
-	    if (y1 > y) then
-	       while(y < y1) do
-	       	       plot(s,c,x,y)
-		       y = y +1
-	       end
-	    else draw_line2(x1 , y1 , x0 , y0, s , c) 
-	    end
-	  end
-	  if( oct == 10) then --
-	      if(x1 > x) then
-	      	    while( x < x1) do
-		    	   plot(s , c , x ,y )
-			   x = x +1
-		    end
-	       else draw_line2(x1 , y1 , x0 , y0 , s , c) 
-	       end
-	  end
-	    
+	 end	    
 end
 
-function draw_line2(x0, y0,x1,y1,s,c) 
-  	 x = x0
-  	 y = y0
-  	 oct = oct_check(x0,y0,x1,y1)
-  	 if(oct == 1) then
-    	 	A = (y1 - y)
-    	 	B = -1*(x1- x)
-    	 	D = (2*A + B)
-    	 	while(x < x1) do 
-      	 		 plot(s,c,x,y) 
-      		 	 if(D>0) then
-      	      	 	 	 y = y +1 
-	      		 	 D= D + 2*B 
-      		 	 end
-      		 	 x= x +1
-      		 	 D = D +2*A 
-    		end
-   	 end
-   
 
-	if(m == 2) then
-    	     A = (y1-y) 
-    	     B = -1 * (x1-x) 
-    	     D = (2*B + A) 
-    	     while(y < y1) do 
-      	     	     plot(s,c,x,y) 
-      		     if(D<0) then
-		     	     x = x +1 
-			     D=  D +2 * A 
-      		     end
-  		     y = y +1
-      		     D= D +2*B 
-    	     end
-   	end
-   
-	if(m == 8) then
-    		A = (y1-y) 
-    		B = -1 * (x1-x) 
-    		D = (2*A -B) 
-    		while(x < x1) do 
-      			plot(s,c,x,y) 
-      			if(D<0) then
-				y = y -1 
-				D = D +2*B 
-      			end
-      			x = x +1 
-      			D = D +2*A 
-    		end
-   	end
-   
-	if(m == 7) then 
-              A = (y1 -y) 
-    	      B = -1 * (x1-x) 
-    	      D = A - (2 * B) 
-    	      while(y > y1) do
-      	      	      plot(s,c,x,y) 
-      		      if(D>0) then
-		      	      x = x +1 
-			      D = D + 2 * A 
-      		      end
-      		      y = y -1 
-      		      D= D - 2 * B 
-    	      end
-   	end
-   
- end
-     
-   
- 
---[[
+
 function draw(s)
 	 pixel = Color:new(0,0,0)
 	 for i = 0 , 499  do
 	     for k = 0, 499 do
-	     	 pixel.red = i
-		 pixel.green = k
-		 pixel.blue = i+k
-		 draw_line(i%4 , k%4 , 250 , 250 , pixel , s)
+	     	 if(i^3 == l) then
+	     	 	pixel.red = i	
+		 	pixel.green = k
+		 	pixel.blue = i+k
+		 	draw_line(250 , 250 , i , k , pixel , s)
+		 end
 	      end
 	 end
 end
-]]--
---draw doesnt work
+
 function main()
 	 clear_screen(board)
-	 --draw(board)
+	 draw(board)
 	 save_ppm(board)
 end
+--[[
 pixel = Color:new(100,50,10)
 clear_screen(board)
 draw_line(100,100,100,150,pixel, board)
@@ -289,6 +200,7 @@ draw_line(250,250,400,200,pixel,board)
 draw_line(20,50,300,490,pixel,board)
 draw_line(0,0,0,400,pixel,board)
 draw_line(0,0,500,450,pixel,board)
-drw_line(250,250,300,200,pixel,board)
+draw_line(250,250,300,200,pixel,board)
 save_ppm(board)
+]]--
 print("file is saved as line.ppm\n")
