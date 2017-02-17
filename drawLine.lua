@@ -91,8 +91,13 @@ function oct_check(x0 , y0, x1 , y1)
 	       oct = 7
 	    end
 	 end
-	 --octant 3
-	 
+	 --horizontak=l line
+	 if (B ==0) then
+	    oct = 1
+	 end
+	 if (A == 0) then
+	    oct =2
+	 end
 	 return oct
 end	      
 
@@ -168,11 +173,11 @@ function draw(s)
 	 pixel = Color:new(0,0,0)
 	 for i = 0 , 499  do
 	     for k = 0, 499 do
-	     	 if(i^2 == k) then
+	     	 if(k==(i-250)^2) then
 	     	 	pixel.red = i%256	
 		 	pixel.green = k%256
 		 	pixel.blue = 100
-		 	draw_line(250 , 250 , i , k , pixel , s)
+		 	draw_line(0 , 0 , i , k , pixel , s)
 		 end
 	      end
 	 end
