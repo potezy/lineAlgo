@@ -92,11 +92,11 @@ function oct_check(x0 , y0, x1 , y1)
 	    end
 	 end
 	 --horizontak=l line
-	 if (B ==0) then
-	    oct = 1
+	 if (B ==0 ) then
+	    oct = 9
 	 end
 	 if (A == 0) then
-	    oct =2
+	    oct =10
 	 end
 	 return oct
 end	      
@@ -107,11 +107,37 @@ function draw_line(x0 , y0 , x1, y1 , c , s)
 	 y = y0
 	 oct = oct_check(x0, y0 , x1, y1)
 	 if (oct == 0) then draw_line(x1,y1,x0,y0,c,s) end
+	 if (oct == 9) then
+	    if (y1 > y) then
+	       while (y1 > y) do
+	       	     plot(s,c,x,y)
+		     y = y +1
+	       end
+	    else 
+	    	 while (y>y1) do
+		       plot(s,c,x,y)
+		       y = y-1
+		 end
+	    end
+	 end
+	 if (oct == 10) then
+	    if ( x1 > x) then
+	       while ( x1 > x) do
+	       	     plot(s , c , x , y)
+		     x = x + 1
+	      end
+	    else
+		while (x > x1) do
+		      plot(s , c , x , y)
+		      x = x -1
+		end
+	    end
+	 end   	     
 	 if (oct == 1) then --line is in octant 1
 	    A = y1 - y
 	    B = -1 * (x1 - x)
 	    D = 2*A + B
-	    while(x < x1) do
+	    while(x <= x1) do
 	    	    plot(s , c , x , y)
 		    if( D>0) then
 		    	y = y+1
@@ -183,7 +209,7 @@ function draw(s)
 	      end
 	 end
 end
-
+--[[
 function main()
 	 pixel = Color:new(100,100,150)
 	 draw_line(0,250,0,490,pixel,board)
@@ -193,7 +219,8 @@ function main()
 	 save_ppm(board)
 end
 main()
---[[
+]]--
+
 pixel = Color:new(100,50,10)
 clear_screen(board)
 draw_line(100,100,100,150,pixel, board)
@@ -202,15 +229,16 @@ draw_line(0,0,200,100,pixel,board)
 draw_line(250,250,400,300,pixel,board)
 draw_line(250,250,300,400,pixel,board)
 draw_line(250,250,200,400,pixel,board)
-draw_line(250,250, 100,300,pixel,board)
+draw_line(250,250, 250,400,pixel,board)
 draw_line(250,250,100,200,pixel,board)
 draw_line(250,250,200,100,pixel,board)
 draw_line(250,250,300,100,pixel,board)
 draw_line(250,250,400,200,pixel,board)
 draw_line(20,50,300,490,pixel,board)
 draw_line(0,0,0,400,pixel,board)
-draw_line(0,0,500,450,pixel,board)
+draw_line(150,0,150,450,pixel,board)
 draw_line(250,250,300,200,pixel,board)
+draw_line(250,250,400,140,pixel,board)
 save_ppm(board)
-]]--
+
 print("file is saved as line.ppm\n")
