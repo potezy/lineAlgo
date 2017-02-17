@@ -178,12 +178,16 @@ function draw(s)
 		 	pixel.green = k%256
 		 	pixel.blue = 100
 		 	draw_line(0 , 0 , i , k , pixel , s)
+			draw_line(0,0,k,i,pixel,s)
 		 end
 	      end
 	 end
 end
 
 function main()
+	 pixel = Color:new(100,100,150)
+	 draw_line(0,250,0,490,pixel,board)
+	 draw_line(250,0,490,0,pixel,board)
 	 clear_screen(board)
 	 draw(board)
 	 save_ppm(board)
