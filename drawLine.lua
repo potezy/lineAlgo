@@ -41,7 +41,9 @@ end
 function plot(s , c , x , y)
 	 local newy = YRES - 1 - y
 	 if(x >=0 and x<XRES and newy >=0 and newy<YRES) then
-	      s[x][newy] = c
+	      s[x][newy].red = c.red
+	      s[x][newy].green = c.green
+	      s[x][newy].blue = c.blue
 	 end
 end
 
@@ -51,7 +53,7 @@ function save_ppm(s)
 	 file:write("P3\n" , XRES , "\n" , YRES , "\n" , MAX_COLOR, "\n")
 	 for x = 0, XRES - 1 do
 	     for y = 0 , YRES - 1 do
-	     	 file:write(s[x][y].red, " " , s[x][y].green, " " , s[x][y].blue, " ")
+	     	 file:write(s[x][y].red, " " ,s[x][y].green," ",s[x][y].blue ," ")
 	     end
 	     file:write("\n")
 	 end 
@@ -196,31 +198,24 @@ end
 
 
 function draw(s)
-	 pixel = Color:new(0,0,0)
 	 for i = 0 , 499  do
 	     for k = 0, 499 do
 	     	 if(k==(i-250)^2) then
-	     	 	pixel.red = i%256	
-		 	pixel.green = k%256
-		 	pixel.blue = 100
+			local pixel = Color:new(i%256 , k%256 , 100)
 		 	draw_line(0 , 0 , i , k , pixel , s)
 			draw_line(0,0,k,i,pixel,s)
 		 end
 	      end
 	 end
 end
---[[
+
 function main()
-	 pixel = Color:new(100,100,150)
-	 draw_line(0,250,0,490,pixel,board)
-	 draw_line(250,0,490,0,pixel,board)
 	 clear_screen(board)
 	 draw(board)
 	 save_ppm(board)
 end
 main()
-]]--
-
+--[[
 pixel = Color:new(100,50,10)
 clear_screen(board)
 draw_line(100,100,100,150,pixel, board)
@@ -240,5 +235,5 @@ draw_line(150,0,150,450,pixel,board)
 draw_line(250,250,300,200,pixel,board)
 draw_line(250,250,400,140,pixel,board)
 save_ppm(board)
-
+]]--
 print("file is saved as line.ppm\n")
